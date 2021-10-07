@@ -23,7 +23,7 @@ const UI = ()=>{
    Initial();
    keyEvent();
    const updateHours = setInterval(setHours,500);
-   const updateGameInfo = setInterval(setGameInfo,8000);
+   const updateGameInfo = setInterval(setGameInfo,8000);o
 }
 //Cria elementos de acordo com o lenght do array
 const setGames = (imagem)=>{
@@ -72,13 +72,13 @@ const keyEvent = ()=>{
     document.addEventListener("keyup",(e)=>{
         if(e.keyCode == "68"){
            index++;
-           index >= gamesArr.length? index = 0 : null;
-           barMove(index)
+           index >= gamesArr.length? index--  : null;
+           barMove(index,280)
         }
         if(e.keyCode == "65"){
            index--;
-           index < gamesArr.length? index = 0 : null;
-           barMove(index)
+           index < 0? index = 0 : null;
+           barMove(index,-280)
         }
         if(e.keyCode == "38"){
           infosChange("50px","30%","250px");
@@ -89,12 +89,17 @@ const keyEvent = ()=>{
     })
 }
 //Altera a posição da barra ''start''
-const barMove = (index)=>{
+const barMove = (index,value)=>{
     let position = gamesArr[index].offsetLeft;
+    let scroll = container.scrollLeft + value;
     bar.style.left = position + "px";
     only("img.active").classList.remove("active");
     gamesArr[index].classList.add("active");
     setGameName(games[index].game)
+    if(scroll < 1626){
+        container.scrollTo(scroll,0);
+    }
+
 }
 //Altera as configurações do layout das informações
 const infosChange = (cont_top,opacity,info_top)=>{
